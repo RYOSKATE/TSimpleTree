@@ -9,6 +9,10 @@
         ],
         "object-shorthand-properties-first": false,
         "radix": false,
-        "ter-arrow-parens": false
+        "ter-arrow-parens": false,
+        "no-increment-decrement": false,
+        "function-name": false,
+        "variable-name": false,
+        "no-parameter-reassignment": false
     }
 }
