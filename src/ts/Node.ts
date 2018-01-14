@@ -1,7 +1,7 @@
 // tslint:disable-next-line:import-name
-import Enumerable from 'typescript-dotnet-umd/System.Linq/Linq';
-import { StringBuilder } from 'typescript-dotnet-umd/System/Text/StringBuilder';
-
+import Enumerable, { LinqEnumerable } from 'typescript-dotnet-es6/System.Linq/Linq';
+import { forEach } from 'typescript-dotnet-es6/System/Collections/Enumeration/Enumerator';
+import { StringBuilder } from 'typescript-dotnet-es6/System/Text/StringBuilder';
 
 export class Node<TNode extends Node<TNode, TValue>, TValue> {
   
@@ -73,7 +73,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   }
 
   public get ChildrenCount():number {
-    return Enumerable.fromAny(this.Children()).count();
+    return this.Children().count();
   }
 
   public get LengthFromDeepestChild():number {
@@ -83,23 +83,18 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
 
   private GetLengthFromDeepestChild():number {
     let maxLength = 0;
-    for (const child of this.Children()) {
+    this.Children().forEach(child => {
       const length = child.GetLengthFromDeepestChild() + 1;
       if (maxLength < length) {
         maxLength = length;
       }
-    }
+    });
+
     return maxLength;
   }
 
   public ChildAtOrNull(index:number):TNode {
-    let i = 0;
-    for (const node of this.Children()) {
-      if (i++ === index) {
-        return node;
-      }
-    }
-    return null;
+    return this.Children().elementAtOrDefault(index);
   }
 
   public Ancestors():IterableIterator<TNode> {
@@ -116,7 +111,11 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     } while (node != null);
   }
   
-  private *Children():IterableIterator<TNode> {
+  private Children():LinqEnumerable<TNode> {
+    return Enumerable.fromAny(this._children());
+  }
+
+  private *_children():IterableIterator<TNode> {
     let node = this.FirstChild;
     if (node == null) {
       return;
@@ -233,15 +232,15 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   //     return AncestorsAndSiblingsBeforeSelfAndSelf().Skip(1);
   // }
 
-  public *AncestorsAndSiblingsBeforeSelfAndSelf():IterableIterator<TNode> {
-    let node = this.ThisNode;
-    do {
-      for (const e of node.PrevsFromSelfAndSelf()) {
-        yield e;
-      }
-      node = node.Parent;
-    } while (node != null);
-  }
+  // public *AncestorsAndSiblingsBeforeSelfAndSelf():IterableIterator<TNode> {
+  //   let node = this.ThisNode;
+  //   do {
+  //     for (const e of node.PrevsFromSelfAndSelf()) {
+  //       yield e;
+  //     }
+  //     node = node.Parent;
+  //   } while (node != null);
+  // }
 
   public *AncestorWithSingleChild():IterableIterator<TNode> {
     let node = this.ThisNode;
@@ -502,8 +501,8 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
       builder.append('  ');
     }
     builder.appendLine(!node.Value != null ? node.Value.toString() : '');
-    for (const child of node.Children()) {
+    node.Children().forEach(child => {
       this.ToStringPrivate(child, depth + 1, builder);
-    }
+    });
   }
 }

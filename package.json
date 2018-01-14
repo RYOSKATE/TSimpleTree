@@ -24,6 +24,7 @@
     "webpack-stream": "^4.0.0"
   },
   "dependencies": {
-    "typescript-dotnet-umd": "^4.9.10"
+    "@types/node": "^9.3.0",
+    "typescript-dotnet-es6": "^4.9.10"
   }
 }
