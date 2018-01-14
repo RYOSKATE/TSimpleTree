@@ -119,7 +119,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return Enumerable.fromAny(generator());
   }
 
-  private Children():LinqEnumerable<TNode> {
+  public Children():LinqEnumerable<TNode> {
     function *generator() {
       let node = this.FirstChild;
       if (node == null) {

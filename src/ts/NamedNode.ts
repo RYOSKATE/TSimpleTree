@@ -1,4 +1,8 @@
+// tslint:disable-next-line:import-name
+import Enumerable, { LinqEnumerable } from 'typescript-dotnet-es6/System.Linq/Linq';
+import { IInfiniteEnumerable } from 'typescript-dotnet-es6/System.Linq/Enumerable';
 import { Node } from './Node';
+
 export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends Node<TNode, TValue> {
 
   protected constructor(node?:TValue) {
@@ -17,21 +21,28 @@ export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends N
 
   // #region Traversal
 
-  // public TNode Child(string name) {
-  //     return Children().FirstOrDefault(node => node.Name == name);
-  // }
+  public Child(name:string):TNode {
+    return super.Children().where(node => node.Name === name).first();
+  }
 
-  // public IEnumerable<TNode> Ancestors(string name) {
-  //     return Ancestors().Where(node => node.Name == name);
-  // }
+  public Ancestors(name:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+    if (typeof name === 'number') {
+      return super.Ancestors(name);
+    }
+    return inclusiveDepth === undefined 
+    ? super.Ancestors().where(node => node.Name === name)
+    :super.Ancestors(inclusiveDepth).where(node => node.Name === name);
+  }
 
   // public IEnumerable<TNode> AncestorsAndSelf(string name) {
   //     return AncestorsAndSelf().Where(node => node.Name == name);
   // }
 
-  // public IEnumerable<TNode> Children(string name) {
-  //     return Children().Where(node => node.Name == name);
-  // }
+  public Children(name?:string):LinqEnumerable<TNode> {
+    return name === undefined 
+    ? super.Children() 
+    : super.Children().where(node => node.Name === name);
+  }
 
   // public IEnumerable<TNode> NextsFromSelf(string name) {
   //     return NextsFromSelf().Where(node => node.Name == name);
@@ -121,9 +132,7 @@ export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends N
   //     return DescendantsOfFirstChildAndSelf().Where(node => node.Name == name);
   // }
 
-  // public IEnumerable<TNode> Ancestors(string name, int inclusiveDepth) {
-  //     return Ancestors(inclusiveDepth).Where(node => node.Name == name);
-  // }
+
 
   // public IEnumerable<TNode> AncestorsAndSelf(string name, int inclusiveDepth) {
   //     return AncestorsAndSelf(inclusiveDepth).Where(node => node.Name == name);

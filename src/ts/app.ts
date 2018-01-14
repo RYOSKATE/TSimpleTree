@@ -1,5 +1,6 @@
 // tslint:disable-next-line:import-name
 import Enumerable, { LinqEnumerable } from 'typescript-dotnet-es6/System.Linq/Linq';
+import { NamedNode } from './NamedNode';
 class Startup {
 
   public static *generator():IterableIterator<number> {
