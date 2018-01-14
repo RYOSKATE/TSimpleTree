@@ -1,5 +1,5 @@
 // tslint:disable-next-line:import-name
-import Enumerable from 'typescript-dotnet-es6/System.Linq/Linq';
+import Enumerable, { LinqEnumerable } from 'typescript-dotnet-es6/System.Linq/Linq';
 import { IInfiniteEnumerable } from 'typescript-dotnet-es6/System.Linq/Enumerable';
 import { forEach } from 'typescript-dotnet-es6/System/Collections/Enumeration/Enumerator';
 import { StringBuilder } from 'typescript-dotnet-es6/System/Text/StringBuilder';
@@ -119,7 +119,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return Enumerable.fromAny(generator());
   }
 
-  private Children():IInfiniteEnumerable<TNode> {
+  private Children():LinqEnumerable<TNode> {
     function *generator() {
       let node = this.FirstChild;
       if (node == null) {
