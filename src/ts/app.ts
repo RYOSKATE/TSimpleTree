@@ -3,15 +3,19 @@ import Enumerable, { LinqEnumerable } from 'typescript-dotnet-es6/System.Linq/Li
 class Startup {
 
   public static *generator():IterableIterator<number> {
-    yield 1;
-    yield 2;
-    yield 3;
+    yield 10;
+    yield 20;
+    yield 30;
   }
   public static main(): number {
     const arr = Startup.generator();
     const enu:LinqEnumerable<number> = Enumerable.fromAny(arr);
-    const i = enu.elementAtOrDefault(1);
-    console.log(i);
+    let v:number = 100;
+    enu.forEach(x => {
+      ++v;
+      console.log(x + v);
+    });
+   
     return 0;
   }
 }
