@@ -55,9 +55,11 @@ export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends N
     : super.NextsFromSelf().where(node => node.Name === name);
   }
 
-  // public IEnumerable<TNode> NextsFromSelfAndSelf(string name) {
-  //     return NextsFromSelfAndSelf().Where(node => node.Name == name);
-  // }
+  public NextsFromSelfAndSelf(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.NextsFromSelfAndSelf()
+    : super. NextsFromSelfAndSelf().where(node => node.Name === name);
+  }
 
   // public IEnumerable<TNode> NextsFromLast(string name) {
   //     return NextsFromLast().Where(node => node.Name == name);
