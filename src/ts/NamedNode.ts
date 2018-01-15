@@ -25,18 +25,23 @@ export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends N
     return super.Children().where(node => node.Name === name).first();
   }
 
-  public Ancestors(name:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
-    if (typeof name === 'number') {
-      return super.Ancestors(name);
+  public Ancestors(nameOrInclusiveDepth:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+    if (typeof nameOrInclusiveDepth === 'number') {
+      return super.Ancestors(nameOrInclusiveDepth);
     }
     return inclusiveDepth === undefined 
-    ? super.Ancestors().where(node => node.Name === name)
-    :super.Ancestors(inclusiveDepth).where(node => node.Name === name);
+    ? super.Ancestors().where(node => node.Name === nameOrInclusiveDepth)
+    : super.Ancestors(inclusiveDepth).where(node => node.Name === nameOrInclusiveDepth);
   }
 
-  // public IEnumerable<TNode> AncestorsAndSelf(string name) {
-  //     return AncestorsAndSelf().Where(node => node.Name == name);
-  // }
+  public AncestorsAndSelf(nameOrInclusiveDepth:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+    if (typeof nameOrInclusiveDepth === 'number') {
+      return super.AncestorsAndSelf(nameOrInclusiveDepth);
+    }
+    return inclusiveDepth === undefined 
+    ? super.AncestorsAndSelf().where(node => node.Name === nameOrInclusiveDepth)
+    : super.AncestorsAndSelf(inclusiveDepth).where(node => node.Name === nameOrInclusiveDepth);
+  }
 
   public Children(name?:string):LinqEnumerable<TNode> {
     return name === undefined 
@@ -133,10 +138,6 @@ export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends N
   // }
 
 
-
-  // public IEnumerable<TNode> AncestorsAndSelf(string name, int inclusiveDepth) {
-  //     return AncestorsAndSelf(inclusiveDepth).Where(node => node.Name == name);
-  // }
 
   // public IEnumerable<TNode> Descendants(string name, int inclusiveDepth) {
   //     return Descendants(inclusiveDepth).Where(node => node.Name == name);
