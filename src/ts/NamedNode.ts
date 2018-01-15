@@ -97,9 +97,13 @@ export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends N
     : super.PrevsFromSelfAndSelf().where(node => node.Name === name);
   }
 
-  // public IEnumerable<TNode> Descendants(string name) {
-  //     return Descendants().where(node => node.Name === name);
-  // }
+  public Descendants(nameOrInclusiveDepth:string | number):IInfiniteEnumerable<TNode> {
+    return nameOrInclusiveDepth === undefined
+    ? super.Descendants()
+    : (typeof nameOrInclusiveDepth === 'number') 
+    ? super.Descendants(nameOrInclusiveDepth)
+    : super.Descendants().where(node => node.Name === nameOrInclusiveDepth);
+  }
 
   // public IEnumerable<TNode> DescendantsAndSelf(string name) {
   //     return DescendantsAndSelf().where(node => node.Name === name);
