@@ -9,11 +9,11 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   
   /// Initializes a new instance of the Node class with a default value.
   protected constructor(value?: TValue) {
-    this._firstChild = null;
-    this._parent = null;
-    this._cyclicPrev = this.ThisNode;
-    this._cyclicNext = this.ThisNode;
-    this._value = value === undefined ? null : value;
+    this.firstChild = null;
+    this.parent = null;
+    this.cyclicPrev = this.ThisNode;
+    this.cyclicNext = this.ThisNode;
+    this.Value = value === undefined ? null : value;
   }
 
   private _firstChild:TNode;
@@ -53,7 +53,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   }
 
   public get CyclicPrev():TNode {
-    return this._firstChild;
+    return this._cyclicPrev;
   }
   private set cyclicPrev(cyclicPrev:TNode) {
     this._cyclicPrev = cyclicPrev;
