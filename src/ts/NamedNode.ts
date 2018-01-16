@@ -25,22 +25,18 @@ export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends N
     return super.Children().where(node => node.Name === name).first();
   }
 
-  public Ancestors(nameOrInclusiveDepth:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
-    if (typeof nameOrInclusiveDepth === 'number') {
+  public Ancestors(nameOrInclusiveDepth?:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+    if (typeof nameOrInclusiveDepth !== 'string') {
       return super.Ancestors(nameOrInclusiveDepth);
     }
-    return inclusiveDepth === undefined 
-    ? super.Ancestors().where(node => node.Name === nameOrInclusiveDepth)
-    : super.Ancestors(inclusiveDepth).where(node => node.Name === nameOrInclusiveDepth);
+    return super.Ancestors(inclusiveDepth).where(node => node.Name === nameOrInclusiveDepth);
   }
 
-  public AncestorsAndSelf(nameOrInclusiveDepth:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
-    if (typeof nameOrInclusiveDepth === 'number') {
+  public AncestorsAndSelf(nameOrInclusiveDepth?:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+    if (typeof nameOrInclusiveDepth !== 'string') {
       return super.AncestorsAndSelf(nameOrInclusiveDepth);
     }
-    return inclusiveDepth === undefined 
-    ? super.AncestorsAndSelf().where(node => node.Name === nameOrInclusiveDepth)
-    : super.AncestorsAndSelf(inclusiveDepth).where(node => node.Name === nameOrInclusiveDepth);
+    return super.AncestorsAndSelf(inclusiveDepth).where(node => node.Name === nameOrInclusiveDepth);
   }
 
   public Children(name?:string):LinqEnumerable<TNode> {
@@ -97,81 +93,92 @@ export class NamedNode<TNode extends NamedNode<TNode, TValue>, TValue> extends N
     : super.PrevsFromSelfAndSelf().where(node => node.Name === name);
   }
 
-  public Descendants(nameOrInclusiveDepth:string | number):IInfiniteEnumerable<TNode> {
-    return nameOrInclusiveDepth === undefined
-    ? super.Descendants()
-    : (typeof nameOrInclusiveDepth === 'number') 
-    ? super.Descendants(nameOrInclusiveDepth)
-    : super.Descendants().where(node => node.Name === nameOrInclusiveDepth);
+  public Descendants(nameOrInclusiveDepth?:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+    if (typeof nameOrInclusiveDepth !== 'string') {
+      return super.Descendants(nameOrInclusiveDepth);
+    }
+    return super.Descendants(inclusiveDepth).where(node => node.Name === nameOrInclusiveDepth);
   }
 
-  // public IEnumerable<TNode> DescendantsAndSelf(string name) {
-  //     return DescendantsAndSelf().where(node => node.Name === name);
-  // }
+  public DescendantsAndSelf(nameOrInclusiveDepth?:string | number, inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+    if (typeof nameOrInclusiveDepth !== 'string') {
+      return super.DescendantsAndSelf(nameOrInclusiveDepth);
+    }
+    return super.DescendantsAndSelf(inclusiveDepth).where(node => node.Name === nameOrInclusiveDepth);
+  }
 
-  // public IEnumerable<TNode> Siblings(string name) {
-  //     return Siblings().where(node => node.Name === name);
-  // }
+  public Siblings(nameOrInclusiveEachLength?:string | number, inclusiveEachLength?:number):IInfiniteEnumerable<TNode> {
+    if (typeof nameOrInclusiveEachLength !== 'string') {
+      return super.Siblings(nameOrInclusiveEachLength);
+    }
+    return super.Siblings(inclusiveEachLength).where(node => node.Name === nameOrInclusiveEachLength);
+  }
 
-  // public IEnumerable<TNode> SiblingsAndSelf(string name) {
-  //     return SiblingsAndSelf().where(node => node.Name === name);
-  // }
+  public SiblingsAndSelf(nameOrInclusiveEachLength?:string | number, inclusiveEachLength?:number)
+    :IInfiniteEnumerable<TNode> {
+    if (typeof nameOrInclusiveEachLength !== 'string') {
+      return super.SiblingsAndSelf(nameOrInclusiveEachLength);
+    }
+    return super.SiblingsAndSelf(inclusiveEachLength).where(node => node.Name === nameOrInclusiveEachLength);
+  }
 
-  // public IEnumerable<TNode> AncestorsAndSiblingsAfterSelf(string name) {
-  //     return AncestorsAndSiblingsAfterSelf().where(node => node.Name === name);
-  // }
+  public AncestorsAndSiblingsAfterSelf(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.AncestorsAndSiblingsAfterSelf()
+    : super.AncestorsAndSiblingsAfterSelf().where(node => node.Name === name);
+  }
 
-  // public IEnumerable<TNode> AncestorsAndSiblingsAfterSelfAndSelf(string name) {
-  //     return AncestorsAndSiblingsAfterSelfAndSelf().where(node => node.Name === name);
-  // }
+  public AncestorsAndSiblingsAfterSelfAndSelf(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.AncestorsAndSiblingsAfterSelfAndSelf()
+    : super.AncestorsAndSiblingsAfterSelfAndSelf().where(node => node.Name === name);
+  }
 
-  // public IEnumerable<TNode> AncestorsAndSiblingsBeforeSelf(string name) {
-  //     return AncestorsAndSiblingsBeforeSelf().where(node => node.Name === name);
-  // }
+  public AncestorsAndSiblingsBeforeSelf(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.AncestorsAndSiblingsBeforeSelf()
+    : super.AncestorsAndSiblingsBeforeSelf().where(node => node.Name === name);
+  }
 
-  // public IEnumerable<TNode> AncestorsAndSiblingsBeforeSelfAndSelf(string name) {
-  //     return AncestorsAndSiblingsBeforeSelfAndSelf().where(node => node.Name === name);
-  // }
+  public AncestorsAndSiblingsBeforeSelfAndSelf(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.AncestorsAndSiblingsBeforeSelfAndSelf()
+    : super.AncestorsAndSiblingsBeforeSelfAndSelf().where(node => node.Name === name);
+  }
+  
+  public AncestorsWithSingleChild(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.AncestorsWithSingleChild()
+    : super.AncestorsWithSingleChild().where(node => node.Name === name);
+  }
 
-  // public IEnumerable<TNode> AncestorsWithSingleChild(string name) {
-  //     return AncestorsWithSingleChild().where(node => node.Name === name);
-  // }
+  public AncestorsWithSingleChildAndSelf(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.AncestorsWithSingleChildAndSelf()
+    : super.AncestorsWithSingleChildAndSelf().where(node => node.Name === name);
+  }
 
-  // public IEnumerable<TNode> AncestorsWithSingleChildAndSelf(string name) {
-  //     return AncestorsWithSingleChildAndSelf().where(node => node.Name === name);
-  // }
+  public DescendantsOfSingle(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.DescendantsOfSingle()
+    : super.DescendantsOfSingle().where(node => node.Name === name);
+  }
 
-  // public IEnumerable<TNode> DescendantsOfSingle(string name) {
-  //     return DescendantsOfSingle().where(node => node.Name === name);
-  // }
+  public DescendantsOfSingleAndSelf(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.DescendantsOfSingleAndSelf()
+    : super.DescendantsOfSingleAndSelf().where(node => node.Name === name);
+  }
 
-  // public IEnumerable<TNode> DescendantsOfSingleAndSelf(string name) {
-  //     return DescendantsOfSingleAndSelf().where(node => node.Name === name);
-  // }
+  public DescendantsOfFirstChild(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.DescendantsOfFirstChild()
+    : super.DescendantsOfFirstChild().where(node => node.Name === name);
+  }
 
-  // public IEnumerable<TNode> DescendantsOfFirstChild(string name) {
-  //     return DescendantsOfFirstChild().where(node => node.Name === name);
-  // }
-
-  // public IEnumerable<TNode> DescendantsOfFirstChildAndSelf(string name) {
-  //     return DescendantsOfFirstChildAndSelf().where(node => node.Name === name);
-  // }
-
-
-
-  // public IEnumerable<TNode> Descendants(string name, int inclusiveDepth) {
-  //     return Descendants(inclusiveDepth).where(node => node.Name === name);
-  // }
-
-  // public IEnumerable<TNode> DescendantsAndSelf(string name, int inclusiveDepth) {
-  //     return DescendantsAndSelf(inclusiveDepth).where(node => node.Name === name);
-  // }
-
-  // public IEnumerable<TNode> Siblings(string name, int inclusiveEachLength) {
-  //     return Siblings(inclusiveEachLength).where(node => node.Name === name);
-  // }
-
-  // public IEnumerable<TNode> SiblingsAndSelf(string name, int inclusiveEachLength) {
-  //     return SiblingsAndSelf(inclusiveEachLength).where(node => node.Name === name);
-  // }
+  public DescendantsOfFirstChildAndSelf(name?:string):IInfiniteEnumerable<TNode> {
+    return name === undefined 
+    ? super.DescendantsOfFirstChildAndSelf()
+    : super.DescendantsOfFirstChildAndSelf().where(node => node.Name === name);
+  }
 }

@@ -407,7 +407,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return this.DescendantsOfFirstChildAndSelf().skip(1);
   }
 
-  public DescendantsOfFirstChildAndSelf() {
+  public DescendantsOfFirstChildAndSelf():IInfiniteEnumerable<TNode> {
     function *generator() {
       let node = this.ThisNode;
       do {
