@@ -428,7 +428,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return this.AddPreviousIgnoringFirstChild(node);
   }
 
-  public addNext(node:TNode):TNode {
+  public AddNext(node:TNode):TNode {
     console.assert(node != null);
     console.assert(node.Parent == null);
     console.assert(this.Parent != null);
