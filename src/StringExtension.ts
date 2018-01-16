@@ -15,5 +15,5 @@ String.prototype.insert = function (insertIdx: number, insertString: string) {
 };
 
 String.prototype.normalizeNewLine = function () {
-  return this.replace(/\r\n?/g, '\n');
+  return this.replace(/\r?\n/g, '\n');
 };

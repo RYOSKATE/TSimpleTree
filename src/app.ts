@@ -6,7 +6,9 @@ import './StringExtension';
 
 {
   const node = new StringNode('a');
-  const expect = 'a\n'.normalizeNewLine();
-  const actual = node.toString();
+  const expect = 'a\n';
+  const actual = node.toString().normalizeNewLine();
   assert.equal(actual, expect);
+  // AssertionError: expected 'actual' to equal 'expect'
+
 }

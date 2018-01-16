@@ -8,6 +8,6 @@ import '../src/StringExtension';
 describe('CreateN-Node', () => {
   it('Create1Node', () => {
     const node = new StringNode('a');
-    assert.equal(node.toString(), 'a\n'.normalizeNewLine());
+    assert.equal(node.toString().normalizeNewLine(), 'a\n');
   });
 });

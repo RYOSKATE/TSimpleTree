@@ -4,6 +4,7 @@ import { IInfiniteEnumerable } from 'typescript-dotnet-es6/System.Linq/Enumerabl
 import { forEach } from 'typescript-dotnet-es6/System/Collections/Enumeration/Enumerator';
 import { StringBuilder } from 'typescript-dotnet-es6/System/Text/StringBuilder';
 import { InvalidOperationException } from 'typescript-dotnet-es6//System/Exceptions/InvalidOperationException';
+import './StringExtension';
 export class Node<TNode extends Node<TNode, TValue>, TValue> {
   
   /// Initializes a new instance of the Node class with a default value.
@@ -131,14 +132,13 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   public Children():LinqEnumerable<TNode> {
     function *generator(t) {
       let node = t.FirstChild;
-      if (node == null) {
-        yield null;
+      if (node !== null) {
+        const terminal = node;
+        do {
+          yield node;
+          node = node.CyclicNext;
+        } while (node !== terminal);
       }
-      const terminal = node;
-      do {
-        yield node;
-        node = node.CyclicNext;
-      } while (node !== terminal);
     }
     return Enumerable.fromAny(generator(this));
   }

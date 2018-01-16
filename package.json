@@ -4,7 +4,7 @@
   "description": "TSimpleTree",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "npm run build && mocha dst/js/test.js",
+    "test": "npm run build && mocha dst/test.js",
     "build": "webpack",
     "server": "npm run build && webpack-dev-server"
   },
