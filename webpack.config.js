@@ -1,7 +1,7 @@
 var path = require('path');
 module.exports = {
     entry: {
-        app: './src/app.ts',
+        index: './src/index.ts',
         test: './test/NodeTest.ts',
     },
     output: {

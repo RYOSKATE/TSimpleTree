@@ -1,9 +1,6 @@
 // tslint:disable-next-line:import-name
-import Enumerable from 'typescript-dotnet-es6/System.Linq/Linq';
-import { ILinqEnumerable } from 'typescript-dotnet-es6/System.Linq/Enumerable';
 import { assert } from 'chai';
-import { StringNode } from '../src/StringNode';
-import '../src/StringExtension';
+import { StringNode } from '../src/index';
 
 // npm run test
 describe('CreateN-Node', () => {
