@@ -1,6 +1,6 @@
 // tslint:disable-next-line:import-name
-import Enumerable, { LinqEnumerable } from 'typescript-dotnet-es6/System.Linq/Linq';
-import { IInfiniteEnumerable } from 'typescript-dotnet-es6/System.Linq/Enumerable';
+import Enumerable from 'typescript-dotnet-es6/System.Linq/Linq';
+import { ILinqEnumerable } from 'typescript-dotnet-es6/System.Linq/Enumerable';
 import { forEach } from 'typescript-dotnet-es6/System/Collections/Enumeration/Enumerator';
 import { StringBuilder } from 'typescript-dotnet-es6/System/Text/StringBuilder';
 import { InvalidOperationException } from 'typescript-dotnet-es6//System/Exceptions/InvalidOperationException';
@@ -109,29 +109,29 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return this.Children().elementAtOrDefault(index);
   }
 
-  public Ancestors(inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+  public Ancestors(inclusiveDepth?:number):ILinqEnumerable<TNode> {
     return inclusiveDepth === undefined 
     ? this.AncestorsAndSelf().skip(1) 
     : this.Ancestors().take(inclusiveDepth);
   }
   
-  public AncestorsAndSelf(inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+  public AncestorsAndSelf(inclusiveDepth?:number):ILinqEnumerable<TNode> {
     if (inclusiveDepth !== undefined) {
       return this.AncestorsAndSelf().take(inclusiveDepth + 1);
     }
-    function *generator() {
-      let node = this.ThisNode;
+    function *generator(_this) {
+      let node = _this.ThisNode;
       do {
         yield node;
         node = node.Parent;
       } while (node != null);
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public Children():LinqEnumerable<TNode> {
-    function *generator(t) {
-      let node = t.FirstChild;
+  public Children():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.FirstChild;
       if (node !== null) {
         const terminal = node;
         do {
@@ -144,9 +144,9 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   }
 
 
-  public ReverseChildren():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.LastChild;
+  public ReverseChildren():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.LastChild;
       if (node == null) {
         return;
       }
@@ -156,77 +156,77 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         node = node.CyclicPrev;
       } while (node !== terminal);
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public NextsFromSelf():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.CyclicNext;
-      const terminal = this.FirstSibling;
+  public NextsFromSelf():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.CyclicNext;
+      const terminal = _this.FirstSibling;
       while (node !== terminal) {
         yield node;
         node = node.CyclicNext;
       }
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public NextsFromSelfAndSelf():IInfiniteEnumerable<TNode> {
+  public NextsFromSelfAndSelf():ILinqEnumerable<TNode> {
     return Enumerable.repeat(this.ThisNode, 1).concat(this.NextsFromSelf());
   }
 
-  public NextsFromLast():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.LastSibling;
-      const terminal = this.ThisNode;
+  public NextsFromLast():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.LastSibling;
+      const terminal = _this.ThisNode;
       while (node !== terminal) {
         yield node;
         node = node.CyclicPrev;
       }
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public NextsFromLastAndSelf():IInfiniteEnumerable<TNode> {
+  public NextsFromLastAndSelf():ILinqEnumerable<TNode> {
     return this.NextsFromLast().concat(Enumerable.repeat(this.ThisNode, 1));
   }
 
-  public PrevsFromFirst():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.FirstSibling;
-      const terminal = this.ThisNode;
+  public PrevsFromFirst():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.FirstSibling;
+      const terminal = _this.ThisNode;
       while (node !== terminal) {
         yield node;
         node = node.CyclicNext;
       }
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public PrevsFromFirstAndSelf():IInfiniteEnumerable<TNode> {
+  public PrevsFromFirstAndSelf():ILinqEnumerable<TNode> {
     return this.PrevsFromFirst().concat(Enumerable.repeat(this.ThisNode, 1));
   }
 
-  public PrevsFromSelf():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.CyclicPrev;
-      const terminal = this.LastSibling;
+  public PrevsFromSelf():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.CyclicPrev;
+      const terminal = _this.LastSibling;
       while (node !== terminal) {
         yield node;
         node = node.CyclicPrev;
       }
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public PrevsFromSelfAndSelf():IInfiniteEnumerable<TNode> {
+  public PrevsFromSelfAndSelf():ILinqEnumerable<TNode> {
     return Enumerable.repeat(this.ThisNode, 1).concat(this.PrevsFromSelf());
   }
 
-  public Descendants(inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
-    function *generator() {
+  public Descendants(inclusiveDepth?:number):ILinqEnumerable<TNode> {
+    function *generator(_this) {
       if (inclusiveDepth === undefined) {
-        const start = this.ThisNode;
+        const start = _this.ThisNode;
         let cursor = start;
         if (cursor.FirstChild != null) {
           cursor = cursor.FirstChild;
@@ -247,7 +247,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
           }
         }  
       } else {
-        const start = this.ThisNode;
+        const start = _this.ThisNode;
         let cursor = start;
         if (cursor.FirstChild != null && inclusiveDepth > 0) {
           cursor = cursor.FirstChild;
@@ -272,24 +272,24 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         }
       }
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public DescendantsAndSelf(inclusiveDepth?:number):IInfiniteEnumerable<TNode> {
+  public DescendantsAndSelf(inclusiveDepth?:number):ILinqEnumerable<TNode> {
     return inclusiveDepth === undefined
       ? Enumerable.repeat(this.ThisNode, 1).concat(this.Descendants())
       : Enumerable.repeat(this.ThisNode, 1).concat(this.Descendants(inclusiveDepth));
   }
 
-  public Siblings(inclusiveEachLength?:number):IInfiniteEnumerable<TNode> {
+  public Siblings(inclusiveEachLength?:number):ILinqEnumerable<TNode> {
     if (inclusiveEachLength !== undefined) {
       return this.PrevsFromSelf().take(inclusiveEachLength).reverse()
       .concat(this.NextsFromSelf().take(inclusiveEachLength));
     }
-    function *generator() {
-      const first = this.FirstSibling;
+    function *generator(_this) {
+      const first = _this.FirstSibling;
       let node = first;
-      while (node !== <TNode><any>this) {
+      while (node !== <TNode><any>_this) {
         yield node;
         node = node.CyclicNext;
       }
@@ -299,29 +299,29 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         node = node.CyclicNext;
       }
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public SiblingsAndSelf(inclusiveEachLength?:number):IInfiniteEnumerable<TNode> {
+  public SiblingsAndSelf(inclusiveEachLength?:number):ILinqEnumerable<TNode> {
     if (inclusiveEachLength !== undefined) {
       return this.PrevsFromSelf().take(inclusiveEachLength).reverse()
                 .concat(Enumerable.repeat(this.ThisNode, 1))
                 .concat(this.NextsFromSelf().take(inclusiveEachLength));
     }
-    function *generator() {
-      const first = this.FirstSibling;
+    function *generator(_this) {
+      const first = _this.FirstSibling;
       let node = first;
       do {
         yield node;
         node = node.CyclicNext;
       } while (node !== first);
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public AncestorsAndSiblingsAfterSelf():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.ThisNode;
+  public AncestorsAndSiblingsAfterSelf():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.ThisNode;
       do {
         for (const e of node.NextsFromSelf()) {
           yield e;
@@ -329,20 +329,20 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         node = node.Parent;
       } while (node != null);
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
   
-  public AncestorsAndSiblingsAfterSelfAndSelf():IInfiniteEnumerable<TNode> {
+  public AncestorsAndSiblingsAfterSelfAndSelf():ILinqEnumerable<TNode> {
     return Enumerable.repeat(this.ThisNode, 1).concat(this.AncestorsAndSiblingsAfterSelf());
   }
 
-  public AncestorsAndSiblingsBeforeSelf():IInfiniteEnumerable<TNode> {
+  public AncestorsAndSiblingsBeforeSelf():ILinqEnumerable<TNode> {
     return this.AncestorsAndSiblingsBeforeSelfAndSelf().skip(1);
   }
 
-  public AncestorsAndSiblingsBeforeSelfAndSelf():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.ThisNode;
+  public AncestorsAndSiblingsBeforeSelfAndSelf():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.ThisNode;
       do {
         for (const e of node.PrevsFromSelfAndSelf()) {
           yield e;
@@ -350,12 +350,12 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         node = node.Parent;
       } while (node != null);
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public AncestorWithSingleChild():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.ThisNode;
+  public AncestorWithSingleChild():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.ThisNode;
       while (node === node.CyclicNext) {
         const lastNode = node;
         node = node.Parent;
@@ -365,12 +365,12 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
       }
       return node;
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public AncestorsWithSingleChild():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.ThisNode;
+  public AncestorsWithSingleChild():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.ThisNode;
       while (node === node.CyclicNext) {
         node = node.Parent;
         if (node == null) {
@@ -379,12 +379,12 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         yield node;
       }
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public AncestorsWithSingleChildAndSelf():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.ThisNode;
+  public AncestorsWithSingleChildAndSelf():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.ThisNode;
       yield node;
       while (node === node.CyclicNext) {
         node = node.Parent;
@@ -394,37 +394,37 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         yield node;
       }
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public DescendantsOfSingle():IInfiniteEnumerable<TNode> {
+  public DescendantsOfSingle():ILinqEnumerable<TNode> {
     return this.DescendantsOfSingleAndSelf().skip(1);
   }
 
-  public DescendantsOfSingleAndSelf():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.ThisNode;
+  public DescendantsOfSingleAndSelf():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.ThisNode;
       do {
         yield node;
         node = node.FirstChild;
       } while (node != null && node === node.CyclicNext);
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
-  public DescendantsOfFirstChild():IInfiniteEnumerable<TNode> {
+  public DescendantsOfFirstChild():ILinqEnumerable<TNode> {
     return this.DescendantsOfFirstChildAndSelf().skip(1);
   }
 
-  public DescendantsOfFirstChildAndSelf():IInfiniteEnumerable<TNode> {
-    function *generator() {
-      let node = this.ThisNode;
+  public DescendantsOfFirstChildAndSelf():ILinqEnumerable<TNode> {
+    function *generator(_this) {
+      let node = _this.ThisNode;
       do {
         yield node;
         node = node.FirstChild;
       } while (node != null);
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
   public AddPrevious(node:TNode):TNode {
