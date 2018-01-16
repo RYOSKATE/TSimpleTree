@@ -4,10 +4,9 @@ import { assert } from 'chai';
 import { StringNode } from './StringNode';
 import './StringExtension';
 
-// npm run test
-describe('CreateN-Node', () => {
-  it('Create1Node', () => {
-    const node = new StringNode('a');
-    assert.equal(node.toString(), 'a\n'.normalizeNewLine());
-  });
-});
+{
+  const node = new StringNode('a');
+  const expect = 'a\n'.normalizeNewLine();
+  const actual = node.toString();
+  assert.equal(actual, expect);
+}

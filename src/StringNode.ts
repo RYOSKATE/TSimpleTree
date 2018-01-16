@@ -2,10 +2,10 @@ import { NamedNode } from './NamedNode';
 export class StringNode extends NamedNode<StringNode, string> {
 
   public get Value():string {
-    return this.Value;
+    return super.getValue();
   }
-  public set value(value:string) {
-    this.value = value;
+  public set Value(value:string) {
+    super.setValue(value);
   }
   
   public constructor(node: string) {

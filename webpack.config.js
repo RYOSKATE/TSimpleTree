@@ -5,7 +5,7 @@ module.exports = {
         test: './test/NodeTest.ts',
     },
     output: {
-        path: require("path").resolve("./dst/js/"),
+        path: require("path").resolve("./dst/"),
         filename: '[name].js',
         devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },

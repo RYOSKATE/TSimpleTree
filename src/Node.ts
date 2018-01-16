@@ -8,10 +8,18 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   
   /// Initializes a new instance of the Node class with a default value.
   protected constructor(value?: TValue) {
-    this.cyclicPrev = this.ThisNode;
-    this.cyclicNext = this.ThisNode;
-    this.value = value;
+    this._firstChild = null;
+    this._parent = null;
+    this._cyclicPrev = this.ThisNode;
+    this._cyclicNext = this.ThisNode;
+    this._value = value === undefined ? null : value;
   }
+
+  private _firstChild:TNode;
+  private _parent:TNode;
+  private _cyclicPrev:TNode;
+  private _cyclicNext:TNode;
+  private _value:TValue;
 
   private get ThisNode(): TNode {
     return <TNode><any>this;
@@ -25,7 +33,6 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return this.Parent != null ? this.Parent.FirstChild.CyclicPrev : this.ThisNode;
   }
 
-  private _firstChild:TNode;
   public get FirstChild():TNode {
     return this._firstChild;
   }
@@ -37,7 +44,6 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return this.FirstChild != null ? this.FirstChild.CyclicPrev : null;
   }
 
-  private _parent:TNode;
   public get Parent():TNode {
     return this._parent;
   }
@@ -45,7 +51,6 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     this._parent = parent;
   }
 
-  private _cyclicPrev:TNode;
   public get CyclicPrev():TNode {
     return this._firstChild;
   }
@@ -53,7 +58,6 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     this._cyclicPrev = cyclicPrev;
   }
 
-  private _cyclicNext:TNode;
   public get CyclicNext():TNode {
     return this._cyclicNext;
   }
@@ -67,11 +71,16 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return this.CyclicNext !== this.FirstSibling ? this.CyclicNext : null;
   }
 
-  private _value:TValue;
+  protected getValue():TValue {
+    return this._value;
+  }
+  protected setValue(value: TValue) {
+    this._value = value;
+  }
   protected get Value():TValue {
     return this._value;
   }
-  protected set value(value: TValue) {
+  protected set Value(value: TValue) {
     this._value = value;
   }
 
@@ -120,10 +129,10 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   }
 
   public Children():LinqEnumerable<TNode> {
-    function *generator() {
-      let node = this.FirstChild;
+    function *generator(t) {
+      let node = t.FirstChild;
       if (node == null) {
-        return;
+        yield null;
       }
       const terminal = node;
       do {
@@ -131,7 +140,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         node = node.CyclicNext;
       } while (node !== terminal);
     }
-    return Enumerable.fromAny(generator());
+    return Enumerable.fromAny(generator(this));
   }
 
 
@@ -552,7 +561,8 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
       builder.append('  ');
     }
     builder.appendLine(!node.Value != null ? node.Value.toString() : '');
-    node.Children().forEach(child => {
+    const children = node.Children();
+    children.forEach(child => {
       this.ToStringPrivate(child, depth + 1, builder);
     });
   }
