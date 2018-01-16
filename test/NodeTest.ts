@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import { StringNode } from '../src/index';
 
 // npm run test
-describe('CreateN-Nodes', () => {
+describe('StringNodeTest', () => {
   it('Create1Node', () => {
     const node = new StringNode('a');
     const actual = node.toString();
@@ -37,5 +37,16 @@ describe('CreateN-Nodes', () => {
     assert.equal(actual, 'a\n  c\n  b\n  d\n'.normalizeNewLine());
     const actua2 = node.Descendants().select(n => n.Value).toJoinedString('');
     assert.equal(actua2, 'cbd');
+  });
+  it('Replace', () => {
+    const a = new StringNode('a');
+    const b = new StringNode('b');
+    const c = new StringNode('c');
+    // a - b - c
+    a.AddFirst(b);
+    b.AddFirst(c);
+    b.Replace(new StringNode('d'));
+    const actual = a.DescendantsAndSelf().select(n => n.Value).toJoinedString('');
+    assert.equal(actual, 'ad');
   });
 });
