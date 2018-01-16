@@ -8,7 +8,7 @@ export class StringNode extends NamedNode<StringNode, string> {
     this.value = value;
   }
   
-  protected constructor(node: string) {
+  public constructor(node: string) {
     super(node);
   }
 

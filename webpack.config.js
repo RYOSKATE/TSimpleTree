@@ -1,8 +1,8 @@
 var path = require('path');
 module.exports = {
     entry: {
-        app: './src/ts/app.ts',
-        test: './test/ts/NodeTest.ts',
+        app: './src/app.ts',
+        test: './test/NodeTest.ts',
     },
     output: {
         path: require("path").resolve("./dst/js/"),
