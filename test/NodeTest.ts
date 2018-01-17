@@ -64,8 +64,8 @@ describe('StringNodeTest', () => {
     const l = i.AddPrevious('l'); // 4
     const m = i.AddNext('m'); // 4
     assert.equal(a.toString(), 
- 'a\n  e\n  d\n  b\n    g\n      k\n      h\n      j\n    f\n      l\n      i\n      m\n  c\n'
- .normalizeNewLine());
+                 'a\n  e\n  d\n  b\n    g\n      k\n      h\n      j\n    f\n      l\n      i\n      m\n  c\n'
+                 .normalizeNewLine());
 
     assert.equal(a.LengthFromDeepestChild, 3);
     assert.equal(b.LengthFromDeepestChild, 2);
@@ -80,6 +80,80 @@ describe('StringNodeTest', () => {
     assert.equal(k.LengthFromDeepestChild, 0);
     assert.equal(l.LengthFromDeepestChild, 0);
     assert.equal(m.LengthFromDeepestChild, 0);
+
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''),'edbgkhjflimc');
+    assert.equal(e.Descendants().select(n => n.Value).toJoinedString(''),'');
+    assert.equal(d.Descendants().select(n => n.Value).toJoinedString(''),'');
+    assert.equal(b.Descendants().select(n => n.Value).toJoinedString(''),'gkhjflim');
+    assert.equal(c.Descendants().select(n => n.Value).toJoinedString(''),'');
+
+    assert.equal(a.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),'aedbgkhjflimc');
+    assert.equal(e.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),'e');
+    assert.equal(d.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),'d');
+    assert.equal(b.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),'bgkhjflim');
+    assert.equal(c.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),'c');
+
+    assert.equal(a.Descendants(2).select(n => n.Value).toJoinedString(''),'edbgfc');
+    assert.equal(e.Descendants(2).select(n => n.Value).toJoinedString(''),'');
+    assert.equal(d.Descendants(2).select(n => n.Value).toJoinedString(''),'');
+    assert.equal(b.Descendants(2).select(n => n.Value).toJoinedString(''),'gkhjflim');
+    assert.equal(c.Descendants(2).select(n => n.Value).toJoinedString(''),'');
+    assert.equal(b.Descendants(0).select(n => n.Value).toJoinedString(''),'');
+
+    assert.equal(a.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),'aedbgfc');
+    assert.equal(e.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),'e');
+    assert.equal(d.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),'d');
+    assert.equal(b.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),'bgkhjflim');
+    assert.equal(c.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),'c');
+    assert.equal(b.DescendantsAndSelf(0).select(n => n.Value).toJoinedString(''),'b');
+
+    assert.equal(a.Siblings().select(n => n.Value).toJoinedString(''),'');
+    assert.equal(k.Siblings().select(n => n.Value).toJoinedString(''),'hj');
+    assert.equal(h.Siblings().select(n => n.Value).toJoinedString(''),'kj');
+    assert.equal(j.Siblings().select(n => n.Value).toJoinedString(''),'kh');
+    assert.equal(i.Siblings().select(n => n.Value).toJoinedString(''),'lm');
+
+    assert.equal(a.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),'a');
+    assert.equal(k.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),'khj');
+    assert.equal(h.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),'khj');
+    assert.equal(j.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),'khj');
+    assert.equal(i.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),'lim');
+
+    assert.equal(a.Siblings(1).select(n => n.Value).toJoinedString(''),'');
+    assert.equal(k.Siblings(1).select(n => n.Value).toJoinedString(''),'h');
+    assert.equal(h.Siblings(1).select(n => n.Value).toJoinedString(''),'kj');
+    assert.equal(j.Siblings(1).select(n => n.Value).toJoinedString(''),'h');
+    assert.equal(i.Siblings(1).select(n => n.Value).toJoinedString(''),'lm');
+    assert.equal(i.Siblings(0).select(n => n.Value).toJoinedString(''),'');
+
+    assert.equal(a.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),'a');
+    assert.equal(k.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),'kh');
+    assert.equal(h.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),'khj');
+    assert.equal(j.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),'hj');
+    assert.equal(i.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),'lim');
+    assert.equal(i.SiblingsAndSelf(0).select(n => n.Value).toJoinedString(''),'i');
+
+    assert.equal(i.Ancestors().select(n => n.Value).toJoinedString(''),'fba');
+    assert.equal(i.Ancestors(3).select(n => n.Value).toJoinedString(''),'fba');
+    assert.equal(i.Ancestors(2).select(n => n.Value).toJoinedString(''),'fb');
+    assert.equal(i.Ancestors(1).select(n => n.Value).toJoinedString(''),'f');
+    assert.equal(i.Ancestors(0).select(n => n.Value).toJoinedString(''),'');
+
+    assert.equal(i.AncestorsAndSelf().select(n => n.Value).toJoinedString(''),'ifba');
+    assert.equal(i.AncestorsAndSelf(3).select(n => n.Value).toJoinedString(''),'ifba');
+    assert.equal(i.AncestorsAndSelf(2).select(n => n.Value).toJoinedString(''),'ifb');
+    assert.equal(i.AncestorsAndSelf(1).select(n => n.Value).toJoinedString(''),'if');
+    assert.equal(i.AncestorsAndSelf(0).select(n => n.Value).toJoinedString(''),'i');
+
+    assert.equal(f.AncestorsAndSiblingsAfterSelf().select(n => n.Value).toJoinedString(''),'c');
+    assert.equal(f.AncestorsAndSiblingsAfterSelfAndSelf().select(n => n.Value).toJoinedString(''),'fc');
+    assert.equal(f.AncestorsAndSiblingsBeforeSelf().select(n => n.Value).toJoinedString(''),'gbdea');
+    assert.equal(f.AncestorsAndSiblingsBeforeSelfAndSelf().select(n => n.Value).toJoinedString(''),'fgbdea');
+
+    assert.equal(h.AncestorsAndSiblingsAfterSelf().select(n => n.Value).toJoinedString(''),'jfc');
+    assert.equal(h.AncestorsAndSiblingsAfterSelfAndSelf().select(n => n.Value).toJoinedString(''),'hjfc');
+    assert.equal(h.AncestorsAndSiblingsBeforeSelf().select(n => n.Value).toJoinedString(''),'kgbdea');
+    assert.equal(h.AncestorsAndSiblingsBeforeSelfAndSelf().select(n => n.Value).toJoinedString(''),'hkgbdea');
   });
   it('TraverseSingles', () => {
     const a = new StringNode('a');
@@ -111,79 +185,5 @@ describe('StringNodeTest', () => {
     assert.equal(d.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'dcb');
     assert.equal(e.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),'');
     assert.equal(e.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'e');
-
-    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''),"edbgkhjflimc");
-    assert.equal(e.Descendants().select(n => n.Value).toJoinedString(''),"");
-    assert.equal(d.Descendants().select(n => n.Value).toJoinedString(''),"");
-    assert.equal(b.Descendants().select(n => n.Value).toJoinedString(''),"gkhjflim");
-    assert.equal(c.Descendants().select(n => n.Value).toJoinedString(''),"");
-
-    assert.equal(a.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),"aedbgkhjflimc");
-    assert.equal(e.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),"e");
-    assert.equal(d.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),"d");
-    assert.equal(b.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),"bgkhjflim");
-    assert.equal(c.DescendantsAndSelf().select(n => n.Value).toJoinedString(''),"c");
-
-    assert.equal(a.Descendants(2).select(n => n.Value).toJoinedString(''),"edbgfc");
-    assert.equal(e.Descendants(2).select(n => n.Value).toJoinedString(''),"");
-    assert.equal(d.Descendants(2).select(n => n.Value).toJoinedString(''),"");
-    assert.equal(b.Descendants(2).select(n => n.Value).toJoinedString(''),"gkhjflim");
-    assert.equal(c.Descendants(2).select(n => n.Value).toJoinedString(''),"");
-    assert.equal(b.Descendants(0).select(n => n.Value).toJoinedString(''),"");
-
-    assert.equal(a.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),"aedbgfc");
-    assert.equal(e.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),"e");
-    assert.equal(d.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),"d");
-    assert.equal(b.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),"bgkhjflim");
-    assert.equal(c.DescendantsAndSelf(2).select(n => n.Value).toJoinedString(''),"c");
-    assert.equal(b.DescendantsAndSelf(0).select(n => n.Value).toJoinedString(''),"b");
-
-    assert.equal(a.Siblings().select(n => n.Value).toJoinedString(''),"");
-    assert.equal(k.Siblings().select(n => n.Value).toJoinedString(''),"hj");
-    assert.equal(h.Siblings().select(n => n.Value).toJoinedString(''),"kj");
-    assert.equal(j.Siblings().select(n => n.Value).toJoinedString(''),"kh");
-    assert.equal(i.Siblings().select(n => n.Value).toJoinedString(''),"lm");
-
-    assert.equal(a.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),"a");
-    assert.equal(k.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),"khj");
-    assert.equal(h.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),"khj");
-    assert.equal(j.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),"khj");
-    assert.equal(i.SiblingsAndSelf().select(n => n.Value).toJoinedString(''),"lim");
-
-    assert.equal(a.Siblings(1).select(n => n.Value).toJoinedString(''),"");
-    assert.equal(k.Siblings(1).select(n => n.Value).toJoinedString(''),"h");
-    assert.equal(h.Siblings(1).select(n => n.Value).toJoinedString(''),"kj");
-    assert.equal(j.Siblings(1).select(n => n.Value).toJoinedString(''),"h");
-    assert.equal(i.Siblings(1).select(n => n.Value).toJoinedString(''),"lm");
-    assert.equal(i.Siblings(0).select(n => n.Value).toJoinedString(''),"");
-
-    assert.equal(a.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),"a");
-    assert.equal(k.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),"kh");
-    assert.equal(h.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),"khj");
-    assert.equal(j.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),"hj");
-    assert.equal(i.SiblingsAndSelf(1).select(n => n.Value).toJoinedString(''),"lim");
-    assert.equal(i.SiblingsAndSelf(0).select(n => n.Value).toJoinedString(''),"i");
-
-    assert.equal(i.Ancestors().select(n => n.Value).toJoinedString(''),"fba");
-    assert.equal(i.Ancestors(3).select(n => n.Value).toJoinedString(''),"fba");
-    assert.equal(i.Ancestors(2).select(n => n.Value).toJoinedString(''),"fb");
-    assert.equal(i.Ancestors(1).select(n => n.Value).toJoinedString(''),"f");
-    assert.equal(i.Ancestors(0).select(n => n.Value).toJoinedString(''),"");
-
-    assert.equal(i.AncestorsAndSelf().select(n => n.Value).toJoinedString(''),"ifba");
-    assert.equal(i.AncestorsAndSelf(3).select(n => n.Value).toJoinedString(''),"ifba");
-    assert.equal(i.AncestorsAndSelf(2).select(n => n.Value).toJoinedString(''),"ifb");
-    assert.equal(i.AncestorsAndSelf(1).select(n => n.Value).toJoinedString(''),"if");
-    assert.equal(i.AncestorsAndSelf(0).select(n => n.Value).toJoinedString(''),"i");
-
-    assert.equal(f.AncestorsAndSiblingsAfterSelf().select(n => n.Value).toJoinedString(''),"c");
-    assert.equal(f.AncestorsAndSiblingsAfterSelfAndSelf().select(n => n.Value).toJoinedString(''),"fc");
-    assert.equal(f.AncestorsAndSiblingsBeforeSelf().select(n => n.Value).toJoinedString(''),"gbdea");
-    assert.equal(f.AncestorsAndSiblingsBeforeSelfAndSelf().select(n => n.Value).toJoinedString(''),"fgbdea");
-
-    assert.equal(h.AncestorsAndSiblingsAfterSelf().select(n => n.Value).toJoinedString(''),"jfc");
-    assert.equal(h.AncestorsAndSiblingsAfterSelfAndSelf().select(n => n.Value).toJoinedString(''),"hjfc");
-    assert.equal(h.AncestorsAndSiblingsBeforeSelf().select(n => n.Value).toJoinedString(''),"kgbdea");
-    assert.equal(h.AncestorsAndSiblingsBeforeSelfAndSelf().select(n => n.Value).toJoinedString(''),"hkgbdea");
   });
 });
