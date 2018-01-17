@@ -50,19 +50,6 @@ describe('Create4Node', () => {
   });
 });
 
-describe('Replace', () => {
-  it(`a.DescendantsAndSelf().select(n => n.Value).toJoinedString('') == 'ad'`, () => {
-    const a = new StringNode('a');
-    const b = new StringNode('b');
-    const c = new StringNode('c');
-    // a - b - c
-    a.AddFirst(b);
-    b.AddFirst(c);
-    b.Replace(new StringNode('d'));
-    assert.equal(a.DescendantsAndSelf().select(n => n.Value).toJoinedString(''), 'ad');
-  });
-});
-
 describe('CreateTreeAndTraverse', () => {
   // a - e 
   //     d        
@@ -189,7 +176,7 @@ describe('CreateTreeAndTraverse', () => {
     assert.isTrue(areEqual(b.ReverseChildren().toArray(), b.Children().reverse().toArray()));
     assert.equal(b.ChildrenCount,2);
     assert.isTrue(areEqual(b.NextsFromSelf().toArray(), [c])
-    assert.isTrue(areEqual(b.NextsFromSelfAndSelf().toArray(), [b, c]));
+                  assert.isTrue(areEqual(b.NextsFromSelfAndSelf().toArray(), [b, c]));
     assert.isTrue(areEqual(b.NextsFromLast().toArray(), [c]);
     assert.isTrue(areEqual(b.NextsFromLastAndSelf().toArray(), [c, b]));
     assert.isTrue(areEqual(b.PrevsFromFirst().toArray(), [e, d]));
@@ -216,6 +203,77 @@ describe('CreateTreeAndTraverse', () => {
     assert.isTrue(areEqual(e.DescendantsOfFirstChildAndSelf().toArray(), [e]));  
   });
 
+  it(`restore()`, () => {
+    const restoreG = g.RemoveRecoverably();
+    assert.isNotNull(restoreG);
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''),'edbflimc');
+    
+    const restoreF = f.RemoveRecoverably();
+    assert.isNotNull(restoreF);
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''),'edbc');
+    
+    const anotherRestoreF = f.RemoveRecoverably();
+    restoreF();
+    anotherRestoreF();
+    restoreF();
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''),'edbflimc');
+
+    const anotherRestoreG = g.RemoveRecoverably();
+    restoreG();
+    anotherRestoreG();
+    restoreG();
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''),'edbgkhjflimc');
+  });
+  it(`foreach()`, () => {
+    a.Descendants().forEach(node => {
+      const restore = node.RemoveRecoverably();
+      assert.isNotNull(restore);
+      assert.notInclude(a.Descendants().select(n => n.Value).toJoinedString(''), node.Value);
+      restore();
+      assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edbgkhjflimc');
+    });
+  });
+
+  it(`Replaced()`, () => {
+    h.Replace(new StringNode('1'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edbgk1jflimc');
+    
+    i.Replace(new StringNode('2'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edbgk1jfl2mc');
+    
+    j.Replace(new StringNode('3'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edbgk13fl2mc');
+    
+    k.Replace(new StringNode('4'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edbg413fl2mc');
+    
+    l.Replace(new StringNode('5'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edbg413f52mc');
+    
+    m.Replace(new StringNode('6'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edbg413f526c');
+
+
+    f.Replace(new StringNode('7'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edbg4137c');
+    
+    g.Replace(new StringNode('8'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'edb87c');
+
+
+    b.Replace(new StringNode('9'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'ed9c');
+    
+    c.Replace(new StringNode('0'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'ed90');
+    
+    d.Replace(new StringNode('1'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), 'e190');
+    
+    e.Replace(new StringNode('2'));
+    assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''), '2190');
+  })
+  ;
 });
 describe('TraverseSingles', () => {
   const a = new StringNode('a');
@@ -249,3 +307,22 @@ describe('TraverseSingles', () => {
     assert.equal(e.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'e');
   });
 });
+
+describe('Replace', () => {
+  it(`a.DescendantsAndSelf().select(n => n.Value).toJoinedString('') == 'ad'`, () => {
+    const a = new StringNode('a');
+    const b = new StringNode('b');
+    const c = new StringNode('c');
+    // a - b - c
+    a.AddFirst(b);
+    b.AddFirst(c);
+    b.Replace(new StringNode('d'));
+    assert.equal(a.DescendantsAndSelf().select(n => n.Value).toJoinedString(''), 'ad');
+  });
+});
+
+// [Test]
+// public void UseExtensionMethodsForIEnumerable() {
+//   new XElement[0].Descendants("test").Descendants("test");
+//   new StringNode[0].Descendants("test").Descendants("test");
+// }
