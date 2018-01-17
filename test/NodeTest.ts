@@ -78,7 +78,7 @@ describe('CreateTreeAndTraverse', () => {
     assert.equal(a.toString(), 
                  'a\n  e\n  d\n  b\n    g\n      k\n      h\n      j\n    f\n      l\n      i\n      m\n  c\n'
                  .normalizeNewLine());
-  }
+  });
   it(`LengthFromDeepestChild`, () => {
     assert.equal(a.LengthFromDeepestChild, 3);
     assert.equal(b.LengthFromDeepestChild, 2);
@@ -93,7 +93,7 @@ describe('CreateTreeAndTraverse', () => {
     assert.equal(k.LengthFromDeepestChild, 0);
     assert.equal(l.LengthFromDeepestChild, 0);
     assert.equal(m.LengthFromDeepestChild, 0);
-     });
+  });
   it(`.select(n => n.Value).toJoinedString('')`, () => {
     assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''),'edbgkhjflimc');
     assert.equal(e.Descendants().select(n => n.Value).toJoinedString(''),'');
