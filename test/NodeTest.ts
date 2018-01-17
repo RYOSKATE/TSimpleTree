@@ -1,9 +1,27 @@
 // tslint:disable-next-line:import-name
+import Enumerable from 'typescript-dotnet-es6/System.Linq/Linq';
+import { areEqual } from 'typescript-dotnet-es6/System/Collections/Array/Compare';
 import { assert } from 'chai';
-import { areEqual } from 'typescript-dotnet-es6/System//Collections/Array/Compare';
 import { StringNode } from '../src/index';
 
 // npm run test
+
+describe('OperateRoot', () => {
+  const root = new StringNode('a');
+  it(`HaveCount(0)`, () => {
+    assert.equal(root.PrevsFromFirst().count(),0);
+    assert.equal(root.NextsFromSelf().count(),0);
+    assert.equal(root.PrevsFromSelf().count(),0);
+    assert.equal(root.NextsFromLast().count(),0);
+  });
+  it(`IFiniteEnumerable.Repeat(root, 1)`, () => {
+    assert.isTrue(areEqual(root.PrevsFromFirstAndSelf().toArray(), Enumerable.repeat(root, 1).toArray()));
+    assert.isTrue(areEqual(root.NextsFromSelfAndSelf().toArray(), Enumerable.repeat(root, 1).toArray()));
+    assert.isTrue(areEqual(root.PrevsFromSelfAndSelf().toArray(), Enumerable.repeat(root, 1).toArray()));
+    assert.isTrue(areEqual(root.NextsFromLastAndSelf().toArray(), Enumerable.repeat(root, 1).toArray()));
+  });
+});
+
 describe('Create1Node', () => {
   const node = new StringNode('a');
   it(String.raw`node.toString() == 'a\n'`, () => {
@@ -175,9 +193,9 @@ describe('CreateTreeAndTraverse', () => {
     assert.isTrue(areEqual(b.Children().toArray(), [g, f]));
     assert.isTrue(areEqual(b.ReverseChildren().toArray(), b.Children().reverse().toArray()));
     assert.equal(b.ChildrenCount,2);
-    assert.isTrue(areEqual(b.NextsFromSelf().toArray(), [c])
-                  assert.isTrue(areEqual(b.NextsFromSelfAndSelf().toArray(), [b, c]));
-    assert.isTrue(areEqual(b.NextsFromLast().toArray(), [c]);
+    assert.isTrue(areEqual(b.NextsFromSelf().toArray(), [c]));
+    assert.isTrue(areEqual(b.NextsFromSelfAndSelf().toArray(), [b, c]));
+    assert.isTrue(areEqual(b.NextsFromLast().toArray(), [c]));
     assert.isTrue(areEqual(b.NextsFromLastAndSelf().toArray(), [c, b]));
     assert.isTrue(areEqual(b.PrevsFromFirst().toArray(), [e, d]));
     assert.isTrue(areEqual(b.PrevsFromFirstAndSelf().toArray(), [e, d, b]));
