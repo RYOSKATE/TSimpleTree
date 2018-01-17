@@ -1,5 +1,6 @@
 // tslint:disable-next-line:import-name
 import { assert } from 'chai';
+import { areEqual } from 'typescript-dotnet-es6/System//Collections/Array/Compare';
 import { StringNode } from '../src/index';
 
 // npm run test
@@ -328,6 +329,99 @@ describe('CreateTreeAndTraverse', () => {
   it(`h.AncestorsAndSiblingsBeforeSelfAndSelf().select(n => n.Value).toJoinedString(''),'hkgbdea'`, () => {
     assert.equal(h.AncestorsAndSiblingsBeforeSelfAndSelf().select(n => n.Value).toJoinedString(''),'hkgbdea');
   });
+
+  it(`assert.isTrue(areEqual(b.Ancestors().toArray(), [ a ]));`, () => {
+    assert.isTrue(areEqual(b.Ancestors().toArray(), [ a ]));
+  });
+  it(`assert.isTrue(areEqual(b.AncestorsAndSelf().toArray(), [ b, a] ));`, () => {
+    assert.isTrue(areEqual(b.AncestorsAndSelf().toArray(), [ b, a] ));
+  });
+  it(`assert.isTrue(areEqual(b.Children().toArray(), [ g, f] ));`, () => {
+    assert.isTrue(areEqual(b.Children().toArray(), [ g, f] ));
+  });
+  it(`assert.isTrue(areEqual(b.ReverseChildren().toArray(), b.Children().Reverse().toArray()));`, () => {
+    assert.isTrue(areEqual(b.ReverseChildren().toArray(), b.Children().reverse().toArray()));
+  });
+  it(`assert.equal(b.ChildrenCount,2);`, () => {
+    assert.equal(b.ChildrenCount,2);
+  });
+  it(`assert.isTrue(areEqual(b.NextsFromSelf().toArray(), [ c ]);`, () => {
+    assert.isTrue(areEqual(b.NextsFromSelf().toArray(), [ c ]);
+  );
+  it(`assert.isTrue(areEqual(b.NextsFromSelfAndSelf().toArray(), [ b, c] ));`, () => {
+    assert.isTrue(areEqual(b.NextsFromSelfAndSelf().toArray(), [ b, c] ));
+  });
+  it(`assert.isTrue(areEqual(b.NextsFromLast().toArray(), [ c ]);`, () => {
+    assert.isTrue(areEqual(b.NextsFromLast().toArray(), [ c ]);
+  });
+  it(`assert.isTrue(areEqual(b.NextsFromLastAndSelf().toArray(), [ c, b] ));`, () => {
+    assert.isTrue(areEqual(b.NextsFromLastAndSelf().toArray(), [ c, b] ));
+  });
+  it(`assert.isTrue(areEqual(b.PrevsFromFirst().toArray(), [ e, d] ));`, () => {
+    assert.isTrue(areEqual(b.PrevsFromFirst().toArray(), [ e, d] ));
+  });
+  it(`assert.isTrue(areEqual(b.PrevsFromFirstAndSelf().toArray(), [ e, d, b ]));`, () => {
+    assert.isTrue(areEqual(b.PrevsFromFirstAndSelf().toArray(), [ e, d, b ]));
+  });
+  it(`assert.isTrue(areEqual(b.PrevsFromSelf().toArray(), [ d, e] ));`, () => {
+    assert.isTrue(areEqual(b.PrevsFromSelf().toArray(), [ d, e] ));
+  });
+  it(`assert.isTrue(areEqual(b.PrevsFromSelfAndSelf().toArray(), [b, d, e ]));`, () => {
+    assert.isTrue(areEqual(b.PrevsFromSelfAndSelf().toArray(), [b, d, e ]));
+  });
+  it(`assert.isTrue(areEqual(b.DescendantsOfFirstChild().toArray(), [ g, k]));`, () => {
+    assert.isTrue(areEqual(b.DescendantsOfFirstChild().toArray(), [ g, k]));
+  });
+  it(`assert.isTrue(areEqual(b.DescendantsOfFirstChildAndSelf().toArray(), [ b, g, k ]));`, () => {
+    assert.isTrue(areEqual(b.DescendantsOfFirstChildAndSelf().toArray(), [ b, g, k ]));
+  });
+
+  it(`assert.isTrue(areEqual(e.Ancestors().toArray(), [ a ]));`, () => {
+    assert.isTrue(areEqual(e.Ancestors().toArray(), [ a ]));
+  });
+  it(`assert.isTrue(areEqual(e.AncestorsAndSelf().toArray(), [ e, a]));`, () => {
+    assert.isTrue(areEqual(e.AncestorsAndSelf().toArray(), [ e, a]));
+  });
+  it(`assert.isTrue(areEqual(e.Children().toArray(), [ing]Node[0]));`, () => {
+    assert.isTrue(areEqual(e.Children().toArray(), []));
+  });
+  it(`assert.isTrue(areEqual(e.ReverseChildren().toArray(), e.Children().reverse().toArray()));`, () => {
+    assert.isTrue(areEqual(e.ReverseChildren().toArray(), e.Children().reverse().toArray()));
+  });
+  it(`assert.equal(e.ChildrenCount, 0);`, () => {
+    assert.equal(e.ChildrenCount, 0);
+  });
+  it(`assert.isTrue(areEqual(e.NextsFromSelf().toArray(), [d, b, c]));`, () => {
+    assert.isTrue(areEqual(e.NextsFromSelf().toArray(), [d, b, c]));
+  });
+  it(`assert.isTrue(areEqual(e.NextsFromSelfAndSelf().toArray(), [e, d, b, c]));`, () => {
+    assert.isTrue(areEqual(e.NextsFromSelfAndSelf().toArray(), [e, d, b, c]));
+  });
+  it(`assert.isTrue(areEqual(e.NextsFromLast().toArray(), [c, b, d]));`, () => {
+    assert.isTrue(areEqual(e.NextsFromLast().toArray(), [c, b, d]));
+  });
+  it(`assert.isTrue(areEqual(e.NextsFromLastAndSelf().toArray(), [c, b, d, e]));`, () => {
+    assert.isTrue(areEqual(e.NextsFromLastAndSelf().toArray(), [c, b, d, e]));
+  });
+  it(`assert.isTrue(areEqual(e.PrevsFromFirst().toArray(), []));`, () => {
+    assert.isTrue(areEqual(e.PrevsFromFirst().toArray(), []));
+  });
+  it(`assert.isTrue(areEqual(e.PrevsFromFirstAndSelf().toArray(), [e]));`, () => {
+    assert.isTrue(areEqual(e.PrevsFromFirstAndSelf().toArray(), [e]));
+  });
+  it(`assert.isTrue(areEqual(e.PrevsFromSelf().toArray(), []));`, () => {
+    assert.isTrue(areEqual(e.PrevsFromSelf().toArray(), []));
+  });
+  it(`assert.isTrue(areEqual(e.PrevsFromSelfAndSelf().toArray(), [e]));`, () => {
+    assert.isTrue(areEqual(e.PrevsFromSelfAndSelf().toArray(), [e]));
+  });
+  it(`assert.isTrue(areEqual(e.DescendantsOfFirstChild().toArray(), []));`, () => {
+    assert.isTrue(areEqual(e.DescendantsOfFirstChild().toArray(), []));
+  });
+  it(`assert.isTrue(areEqual(e.DescendantsOfFirstChildAndSelf().toArray(), [e]));  `, () => {
+    assert.isTrue(areEqual(e.DescendantsOfFirstChildAndSelf().toArray(), [e]));  
+  });
+
 });
 describe('TraverseSingles', () => {
   const a = new StringNode('a');
