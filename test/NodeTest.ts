@@ -49,6 +49,24 @@ describe('StringNodeTest', () => {
     const actual = a.DescendantsAndSelf().select(n => n.Value).toJoinedString('');
     assert.equal(actual, 'ad');
   });
+  it('CreateTreeAndTraverse', () => {
+    const a = new StringNode('a'); // 1
+    const b = a.AddFirst(new StringNode('b')); // 2
+    const c = a.AddLast(new StringNode('c')); // 2
+    const d = a.AddFirst(new StringNode('d')); // 2
+    const e = a.AddFirst(new StringNode('e')); // 2
+    const f = b.AddFirst(new StringNode('f')); // 3
+    const g = b.AddFirst(new StringNode('g')); // 3
+    const h = g.AddLast('h'); // 4
+    const i = f.AddLast('i'); // 4
+    const j = h.AddNext('j'); // 4
+    const k = h.AddPrevious('k'); // 4
+    const l = i.AddPrevious('l'); // 4
+    const m = i.AddNext('m'); // 4
+    assert.equal(a.toString(), 
+                 'a\n  e\n  d\n  b\n    g\n      k\n      h\n      j\n    f\n      l\n      i\n      m\n  c\n'
+                 .normalizeNewLine());
+  });
   it('TraverseSingles', () => {
     const a = new StringNode('a');
     const b = new StringNode('b');
