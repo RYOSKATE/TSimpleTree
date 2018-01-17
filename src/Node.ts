@@ -160,7 +160,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   }
 
   public NextsFromSelf():ILinqEnumerable<TNode> {
-    function *generator(_this) {
+    function *generator1(_this) {
       let node = _this.CyclicNext;
       const terminal = _this.FirstSibling;
       while (node !== terminal) {
@@ -168,7 +168,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
         node = node.CyclicNext;
       }
     }
-    return Enumerable.fromAny(generator(this));
+    return Enumerable.fromAny(generator1(this));
   }
 
   public NextsFromSelfAndSelf():ILinqEnumerable<TNode> {
@@ -238,7 +238,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
             }
             while (cursor.Next == null) {
               cursor = cursor.Parent;
-              if (cursor = start) {
+              if (cursor === start) {
                 return;
               }
             }
@@ -323,8 +323,9 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     function *generator(_this) {
       let node = _this.ThisNode;
       do {
-        for (const e of node.NextsFromSelf()) {
-          yield e;
+        const e = node.NextsFromSelf().getEnumerator();
+        while(e.moveNext()) {
+          yield e.current;
         }
         node = node.Parent;
       } while (node != null);
@@ -344,8 +345,9 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     function *generator(_this) {
       let node = _this.ThisNode;
       do {
-        for (const e of node.PrevsFromSelfAndSelf()) {
-          yield e;
+        const e = node.PrevsFromSelfAndSelf().getEnumerator();
+        while(e.moveNext()) {
+          yield e.current;
         }
         node = node.Parent;
       } while (node != null);
