@@ -92,7 +92,7 @@ describe('CreateTreeAndTraverse', () => {
                  'a\n  e\n  d\n  b\n    g\n      k\n      h\n      j\n    f\n      l\n      i\n      m\n  c\n'
                  .normalizeNewLine());
   }
-     it(`LengthFromDeepestChild`, () => {
+  it(`LengthFromDeepestChild`, () => {
     assert.equal(a.LengthFromDeepestChild, 3);
     assert.equal(b.LengthFromDeepestChild, 2);
     assert.equal(c.LengthFromDeepestChild, 0);
@@ -102,10 +102,10 @@ describe('CreateTreeAndTraverse', () => {
     assert.equal(g.LengthFromDeepestChild, 1);
     assert.equal(h.LengthFromDeepestChild, 0);
     assert.equal(i.LengthFromDeepestChild, 0);
-       assert.equal(j.LengthFromDeepestChild, 0);
-       assert.equal(k.LengthFromDeepestChild, 0);
-       assert.equal(l.LengthFromDeepestChild, 0);
-       assert.equal(m.LengthFromDeepestChild, 0);
+    assert.equal(j.LengthFromDeepestChild, 0);
+    assert.equal(k.LengthFromDeepestChild, 0);
+    assert.equal(l.LengthFromDeepestChild, 0);
+    assert.equal(m.LengthFromDeepestChild, 0);
      });
   it(`.select(n => n.Value).toJoinedString('')`, () => {
     assert.equal(a.Descendants().select(n => n.Value).toJoinedString(''),'edbgkhjflimc');
@@ -189,7 +189,7 @@ describe('CreateTreeAndTraverse', () => {
     assert.isTrue(areEqual(b.ReverseChildren().toArray(), b.Children().reverse().toArray()));
     assert.equal(b.ChildrenCount,2);
     assert.isTrue(areEqual(b.NextsFromSelf().toArray(), [c])
-                  assert.isTrue(areEqual(b.NextsFromSelfAndSelf().toArray(), [b, c]));
+    assert.isTrue(areEqual(b.NextsFromSelfAndSelf().toArray(), [b, c]));
     assert.isTrue(areEqual(b.NextsFromLast().toArray(), [c]);
     assert.isTrue(areEqual(b.NextsFromLastAndSelf().toArray(), [c, b]));
     assert.isTrue(areEqual(b.PrevsFromFirst().toArray(), [e, d]));
@@ -233,42 +233,19 @@ describe('TraverseSingles', () => {
   c.AddFirst(d);
   d.AddFirst(e);
   d.AddLast(f);
-  
-  it(`b.DescendantsOfSingle().select(n => n.Value).toJoinedString(''),'cd'`, () => {
+  it(`.select(n => n.Value).toJoinedString('')`, () => {
     assert.equal(b.DescendantsOfSingle().select(n => n.Value).toJoinedString(''),'cd');
-  });
-  it(`b.DescendantsOfSingleAndSelf().select(n => n.Value).toJoinedString(''),'bcd'`, () => {
     assert.equal(b.DescendantsOfSingleAndSelf().select(n => n.Value).toJoinedString(''),'bcd');
-  });
-  it(`c.DescendantsOfSingle().select(n => n.Value).toJoinedString(''),'d'`, () => {
     assert.equal(c.DescendantsOfSingle().select(n => n.Value).toJoinedString(''),'d');
-  });
-  it(`c.DescendantsOfSingleAndSelf().select(n => n.Value).toJoinedString(''),'cd'`, () => {
     assert.equal(c.DescendantsOfSingleAndSelf().select(n => n.Value).toJoinedString(''),'cd');
-  });
 
-  it(`b.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),''`, () => {
     assert.equal(b.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),'');
-  });
-  it(`b.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'b'`, () => {
     assert.equal(b.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'b');
-  });
-  it(`c.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),'b'`, () => {
     assert.equal(c.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),'b');
-  });
-  it(`c.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'cb'`, () => {
     assert.equal(c.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'cb');
-  });
-  it(`d.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),'cb'`, () => {
     assert.equal(d.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),'cb');
-  });
-  it(`d.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'dcb'`, () => {
     assert.equal(d.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'dcb');
-  });
-  it(`e.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),''`, () => {
     assert.equal(e.AncestorsWithSingleChild().select(n => n.Value).toJoinedString(''),'');
-  });
-  it(`e.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'e'`, () => {
     assert.equal(e.AncestorsWithSingleChildAndSelf().select(n => n.Value).toJoinedString(''),'e');
   });
 });
