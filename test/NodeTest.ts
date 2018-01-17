@@ -66,6 +66,20 @@ describe('StringNodeTest', () => {
     assert.equal(a.toString(), 
                  'a\n  e\n  d\n  b\n    g\n      k\n      h\n      j\n    f\n      l\n      i\n      m\n  c\n'
                  .normalizeNewLine());
+
+    assert.equal(a.LengthFromDeepestChild, 3);
+    assert.equal(b.LengthFromDeepestChild, 2);
+    assert.equal(c.LengthFromDeepestChild, 0);
+    assert.equal(d.LengthFromDeepestChild, 0);
+    assert.equal(e.LengthFromDeepestChild, 0);
+    assert.equal(f.LengthFromDeepestChild, 1);
+    assert.equal(g.LengthFromDeepestChild, 1);
+    assert.equal(h.LengthFromDeepestChild, 0);
+    assert.equal(i.LengthFromDeepestChild, 0);
+    assert.equal(j.LengthFromDeepestChild, 0);
+    assert.equal(k.LengthFromDeepestChild, 0);
+    assert.equal(l.LengthFromDeepestChild, 0);
+    assert.equal(m.LengthFromDeepestChild, 0);
   });
   it('TraverseSingles', () => {
     const a = new StringNode('a');
