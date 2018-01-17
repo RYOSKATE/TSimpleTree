@@ -12,6 +12,7 @@ describe('Create1Node', () => {
     assert.equal(node.Descendants().select(n => n.Value).toJoinedString(''), '');
   });
 });
+
 describe('Create2Node', () => {
   const node = new StringNode('a');
   node.AddFirst(new StringNode('b'));
@@ -22,6 +23,7 @@ describe('Create2Node', () => {
     assert.equal(node.Descendants().select(n => n.Value).toJoinedString(''), 'b');
   });
 });
+
 describe('Create3Node', () => {
   const node = new StringNode('a');
   node.AddLast(new StringNode('b'));
@@ -33,6 +35,7 @@ describe('Create3Node', () => {
     assert.equal(node.Descendants().select(n => n.Value).toJoinedString(''), 'cb');
   });
 });
+
 describe('Create4Node', () => {
   const node = new StringNode('a');
   node.AddLast(new StringNode('b'));
@@ -45,6 +48,7 @@ describe('Create4Node', () => {
     assert.equal(node.Descendants().select(n => n.Value).toJoinedString(''), 'cbd');
   });
 });
+
 describe('Replace', () => {
   it(`a.DescendantsAndSelf().select(n => n.Value).toJoinedString('') == 'ad'`, () => {
     const a = new StringNode('a');
@@ -57,8 +61,8 @@ describe('Replace', () => {
     assert.equal(a.DescendantsAndSelf().select(n => n.Value).toJoinedString(''), 'ad');
   });
 });
-describe('CreateTreeAndTraverse', () => {
 
+describe('CreateTreeAndTraverse', () => {
   // a - e 
   //     d        
   //     b - g - k
