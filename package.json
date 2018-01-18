@@ -4,8 +4,9 @@
   "description": "TSimpleTree",
   "main": "webpack.config.js",
   "scripts": {
+    "lint": "tslint --fix 'src/*.ts'",
+    "build": "npm run lint && webpack",
     "test": "npm run build && mocha dst/test.js",
-    "build": "webpack",
     "server": "npm run build && webpack-dev-server"
   },
   "author": "Ryosuke Ishizue",

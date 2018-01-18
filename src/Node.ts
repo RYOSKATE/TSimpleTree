@@ -324,7 +324,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
       let node = _this.ThisNode;
       do {
         const e = node.NextsFromSelf().getEnumerator();
-        while(e.moveNext()) {
+        while (e.moveNext()) {
           yield e.current;
         }
         node = node.Parent;
@@ -346,7 +346,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
       let node = _this.ThisNode;
       do {
         const e = node.PrevsFromSelfAndSelf().getEnumerator();
-        while(e.moveNext()) {
+        while (e.moveNext()) {
           yield e.current;
         }
         node = node.Parent;
