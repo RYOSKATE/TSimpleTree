@@ -1,22 +1,44 @@
-var path = require('path');
+const path = require('path');
+const threadLoader = {
+    loader: 'thread-loader',
+    options: {
+      workers: require('os').cpus().length - 1,
+    },
+  };
+  
+const babelLoader = {
+    loader: 'babel-loader',
+    options: {
+      cacheDirectory: true,
+    }
+  };
 module.exports = {
     entry: {
-        app: './src/ts/app.ts'
+        index: './src/index.ts',
+        test: './test/NodeTest.ts',
     },
     output: {
-        path: require("path").resolve("./dst/js/"),
+        path: require("path").resolve("./dst/"),
         filename: '[name].js',
         devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.json'],
     },
     module: {
-        loaders: [
-            {
-                exclude: /(node_modules)/,
-                loaders: ["babel-loader", "ts-loader"]
-            }
+        rules: [{
+            test: /\.ts(x?)$/,
+            exclude: /node_modules/,
+            use: [
+              { loader: 'cache-loader' },
+              threadLoader,
+              babelLoader,
+              {
+                loader: 'ts-loader',
+                options: { happyPackMode: true }
+              }
+            ]
+          }
         ]
     },
     devtool: 'inline-source-map'

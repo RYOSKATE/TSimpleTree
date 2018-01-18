@@ -10,9 +10,9 @@
             "request": "launch",
             "sourceMaps": true,
             "cwd": "${workspaceRoot}",
-            "program": "${workspaceRoot}/src/ts/app.ts",
+            "program": "${workspaceRoot}/src/index.ts",
             "outFiles": [
-                "${workspaceRoot}/dst/js/app.js"
+                "${workspaceRoot}/dst/index.js"
             ]
         }
     ]
