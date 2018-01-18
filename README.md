@@ -1,3 +1,2 @@
-JSimpleTree [![Build Status](https://travis-ci.org/RYOSKATE/JSimpleTree.svg?branch=master)](http://travis-ci.org/RYOSKATE/JSimpleTree)
-
+TSimpleTree [![Build Status](https://travis-ci.org/RYOSKATE/TSimpleTree.svg?branch=master)](https://travis-ci.org/RYOSKATE/TSimpleTree)
 ===========
