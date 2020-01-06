@@ -7,7 +7,7 @@ export class StringNode extends NamedNode<StringNode, string> {
   public set Value(value:string) {
     super.setValue(value);
   }
-  
+
   public constructor(node: string) {
     super(node);
   }

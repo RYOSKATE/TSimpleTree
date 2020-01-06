@@ -6,7 +6,7 @@ import { StringBuilder } from 'typescript-dotnet-es6/System/Text/StringBuilder';
 import { InvalidOperationException } from 'typescript-dotnet-es6//System/Exceptions/InvalidOperationException';
 import './StringExtension';
 export class Node<TNode extends Node<TNode, TValue>, TValue> {
-  
+
   /// Initializes a new instance of the Node class with a default value.
   protected constructor(value?: TValue) {
     this.firstChild = null;
@@ -29,7 +29,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   public get FirstSibling():TNode {
     return this.Parent != null ? this.Parent.FirstChild : this.ThisNode;
   }
-  
+
   public get LastSibling(): TNode {
     return this.Parent != null ? this.Parent.FirstChild.CyclicPrev : this.ThisNode;
   }
@@ -93,7 +93,6 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return this.GetLengthFromDeepestChild();
   }
 
-
   private GetLengthFromDeepestChild():number {
     let maxLength = 0;
     this.Children().forEach(child => {
@@ -110,11 +109,11 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
   }
 
   public Ancestors(inclusiveDepth?:number):ILinqEnumerable<TNode> {
-    return inclusiveDepth === undefined 
-    ? this.AncestorsAndSelf().skip(1) 
+    return inclusiveDepth === undefined
+    ? this.AncestorsAndSelf().skip(1)
     : this.Ancestors().take(inclusiveDepth);
   }
-  
+
   public AncestorsAndSelf(inclusiveDepth?:number):ILinqEnumerable<TNode> {
     if (inclusiveDepth !== undefined) {
       return this.AncestorsAndSelf().take(inclusiveDepth + 1);
@@ -142,7 +141,6 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     }
     return Enumerable.fromAny(generator(this));
   }
-
 
   public ReverseChildren():ILinqEnumerable<TNode> {
     function *generator(_this) {
@@ -245,7 +243,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
             cursor = cursor.CyclicNext;
             yield cursor;
           }
-        }  
+        }
       } else {
         const start = _this.ThisNode;
         let cursor = start;
@@ -332,7 +330,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     }
     return Enumerable.fromAny(generator(this));
   }
-  
+
   public AncestorsAndSiblingsAfterSelfAndSelf():ILinqEnumerable<TNode> {
     return Enumerable.repeat(this.ThisNode, 1).concat(this.AncestorsAndSiblingsAfterSelf());
   }
@@ -555,7 +553,7 @@ export class Node<TNode extends Node<TNode, TValue>, TValue> {
     return builder.toString();
   }
 
-  private ToStringPrivate(node:TNode,depth:number, builder:StringBuilder):void  {
+  private ToStringPrivate(node:TNode, depth:number, builder:StringBuilder):void  {
     if (node == null) {
       return;
     }
