@@ -24,7 +24,7 @@
     "mocha": "4.1.0",
     "os": "0.1.1",
     "postinstall-build": "5.0.3",
-    "remap-istanbul": "0.10.1",
+    "remap-istanbul": "0.13.0",
     "source-map-loader": "0.2.4",
     "thread-loader": "1.2.0",
     "ts-loader": "3.5.0",
