@@ -30,7 +30,7 @@
     "ts-loader": "3.5.0",
     "tslint": "5.20.1",
     "tslint-config-airbnb": "5.11.2",
-    "tsutils": "2.29.0",
+    "tsutils": "3.17.1",
     "typemoq": "2.1.0",
     "typescript": "2.9.2",
     "webpack": "3.12.0",
