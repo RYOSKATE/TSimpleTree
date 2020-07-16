@@ -32,7 +32,7 @@
     "tslint-config-airbnb": "5.11.2",
     "tsutils": "2.29.0",
     "typemoq": "2.1.0",
-    "typescript": "2.9.2",
+    "typescript": "3.9.7",
     "webpack": "3.12.0",
     "webpack-dev-server": "3.11.0",
     "webpack-stream": "4.0.3"
