@@ -15,7 +15,7 @@
     "@types/chai": "4.2.11",
     "@types/mocha": "2.2.48",
     "babel-core": "6.26.3",
-    "babel-loader": "7.1.5",
+    "babel-loader": "8.2.2",
     "babel-preset-es2015": "6.24.1",
     "cache-loader": "1.2.5",
     "chai": "4.2.0",
